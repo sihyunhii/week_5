@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>week 5</title>
+    
+        <style type="text/css">
+
+            body {
+                background-image: url('bg2.jpeg');
+                background-size:cover;
+                overflow: clip;
+            }
+            #rect {
+                top: 0px;
+                left: 0px;
+                position: absolute;
+                z-index: 100;
+            }
+            #gary {
+                width: 100px;
+                height: auto;
+            }
+            .fruit{
+                top: 0px;
+                left: 0px;
+                position: absolute;
+            }
+            .food{
+                width: auto;
+                height: 100px;
+            }
+            h1 {
+                font-family: "KrabbyPatty", Helvetica, sans-serif;
+                color:#2758A2;
+                font-size: 35px;
+                text-shadow: 1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+                
+            }
+
+            p {
+                font-weight: bold;
+                font-family: "KrabbyPatty", Helvetica, sans-serif;
+                color:#2758A2;
+                font-size: 50px;
+                display: inline;
+                padding-left: 40px;
+                padding-right: 40px;
+                text-shadow: 1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+            }
+
+            #songtext {
+                font-weight: bold;
+                font-family: "KrabbyPatty", Helvetica, sans-serif;
+                color:#2758A2;
+                font-size: 30px;
+                display: inline;
+                padding-left: 40px;
+                padding-right: 40px;
+                text-shadow: 1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+            }
+
+            #start{
+                font-family: "KrabbyPatty", Helvetica, sans-serif;
+                color:#fff1d5;
+                font-size: 35px;
+                padding: 25px 35px 30px 30px;
+                margin: 20px;
+                border: 0px;
+                border-radius: 50%;
+                background-color: #2758A2;
+                font-weight: bold;
+                box-shadow: 3px 5px 3px rgb(0, 0, 0, 0.7);
+            }
+
+            div{
+                text-align: center;
+                margin: auto;
+            }
+            
+            #vert {
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+
+            @font-face {
+            font-family: "KrabbyPatty"; 
+            src: url("krabbypatty.ttf") format("truetype"); 
+            } 
+
+        </style>
+    </head>
+    <body>
+
+        <div id="container">
+            <p id="score">SCORE: 0</p>
+            <p id="timer">TIME LEFT: 30</p>
+            <br>
+            <div id="hide">
+                <audio src="music.mp3" type="audio/mp3" autoplay loop></audio>
+                <div id="songtext"></div>
+            </div>
+
+            <div id="vert">
+                <button id="start" onclick="myStart()">PLAY</button>
+            </div>
+            <div id="rect">
+                <img src="gary.png" id="gary">
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+var song = "<br>Who lives in a pineapple under the sea?<br>SpongeBob SquarePants!<br>Absorbent and yellow and porous is he.<br>SpongeBob SquarePants!<br>If nautical nonsense, be something you wish.<br>SpongeBob SquarePants!<br>Then drop on the deck and flop like a fish!<br>SpongeBob SquarePants!<br>";
+
+var songArr = song.split(" ");
+var myTimer = setInterval(print, 500);
+
+var s=0;
+function print(){
+    var t = document.createElement("span");
+    t.innerHTML = songArr[s] + " ";
+    t.className = "word";
+    s++;
+    songtext.appendChild(t);
+
+    if(s == songArr.length){
+        clearInterval(myTimer);
+    }
+}
+
+        document.getElementById("rect").style.visibility = "hidden";
+
+        function myStart() {
+
+            document.getElementById("rect").style.visibility = "visible";
+            document.getElementById("start").style.display = "none";
+            document.getElementById("hide").style.display = "none";
+
+            var x = 0;
+            var y = 0;
+
+            var a = [];
+            for(var i=0; i<5; i++){
+                var bb = Math.random()*10;
+                var cc = Math.random()*10;
+                a.push([bb.toFixed(),cc.toFixed()]);
+            }
+            
+        
+            for(var i=0; i<a.length; i++){
+               makeFruit(a[i][0], a[i][1]);
+            }
+
+            function makeFruit(fx, fy) {
+                let a = document.createElement("div");
+                a.className = "fruit";
+                a.innerHTML = '<img src="food.png" class="food">';
+                a.style.left = fx * 100 + "px";
+                a.style.top = fy * 100 + "px";
+                document.body.appendChild(a);
+            }
+
+            rect.style.left = x + "px";
+            rect.style.top = y + "px";
+
+            window.onkeydown = function (e){
+                if(e.keyCode == 37){
+                    x -= 1;
+                    rect.style.left = x*100 + "px";
+                }
+                else if(e.keyCode == 38){
+                    y -= 1;
+                    rect.style.top = y*100 + "px";
+                }
+                else if(e.keyCode == 39){
+                    x += 1;
+                    rect.style.left = x*100 + "px";
+                }
+                else if(e.keyCode == 40){
+                    y += 1;
+                    rect.style.top = y*100 + "px";
+                }
+
+                let counter = 0;
+                for(var i=0; i<a.length; i++){
+                    if(x == a[i][0] && y == a[i][1]){
+                        counter = counter + 1;
+                        document.getElementById('score').innerHTML = "SCORE: " + counter;
+                    }        
+                }
+                    
+                }    
+                   
+            
+                
+            var timeleft = 29;
+            var downloadTimer = setInterval(function(){
+                if(timeleft <= 0){
+                    clearInterval(downloadTimer);
+                    alert("YOU RUN OUT OF TIME!");
+                    window.location.reload();
+                } else {
+                    document.getElementById("timer").innerHTML = "TIME LEFT: " + timeleft;
+                }
+                timeleft -= 1;
+            }, 1000);
+
+            
+        }
+        
+            
+        </script>
+    </body>
+</html>
